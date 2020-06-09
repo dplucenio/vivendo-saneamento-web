@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="/assets/images/logo.png?raw=true" width="500" alt="Vivendo Saneamento" />
+<p align="center"  
+  <img src="/assets/images/logo.png?raw=true" width="500" alt="Vivendo Saneamento" />  
 </p>
 
 <h3 align="center">Website for 'Vivendo Saneamento' blog.</h3>
@@ -13,10 +13,15 @@
 🇬🇧 An initiative by Priscilla Bernardelli to share knowledge about environmental and sanitary engineering in an easy and accessible approach for everyone, hoping to help reduce the misinformation on this topic that plays a big part on our daily lives.
 
 #### Technologies
-- React / Gatsby
-- All transitions/UI were created using `css` and styled components
-- Content is fetched from Contentful
+- React / [Gatsby](https://www.gatsbyjs.org/)
+- All transitions/UI were created using css and [styled-components](https://styled-components.com/)
+- Content is fetched from [Contentful](https://www.contentful.com/)
 
 ---
 
 🇧🇷 Uma iniciativa da Priscilla Bernardelli para compartilhar conhecimento sobre Engenharia Sanitária e Ambiental em uma linguagem acessível para todos, esperando ajudar a diminuir as desinformaçes acerca deste tema que é tão presente nosso dia a dia.
+
+#### Tecnologias utilizadas
+- React / [Gatsby](https://www.gatsbyjs.org/)
+- Todas as transiçes/UI foram criadas com css e [styled-components](https://styled-components.com/)
+- O conteúdo é grenciado com [Contentful](https://www.contentful.com/)
