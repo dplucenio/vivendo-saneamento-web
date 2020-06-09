@@ -30,6 +30,6 @@
 - Todas as transiçes/UI foram criadas com css e [styled-components](https://styled-components.com/)
 - O conteúdo é grenciado com [Contentful](https://www.contentful.com/)
 
----
+<br/>
 
-This project is currently hosted at [vivendosaneamento.org](https://vivendosaneamento.org]
+This project is currently hosted at [vivendosaneamento.org](https://vivendosaneamento.org)
