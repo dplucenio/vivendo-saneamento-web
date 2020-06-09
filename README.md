@@ -4,11 +4,7 @@
 
 <h3 align="center">Website for 'Vivendo Saneamento' blog.</h3>
 
-<div align="center">
 
-[vivendosaneamento.org](https://vivendosaneamento.org)
-
-</div>
 
 <div align="center">
   
