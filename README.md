@@ -17,4 +17,6 @@
 - All transitions/UI were created using `css` and styled components
 - Content is fetched from Contentful
 
+---
+
 🇧🇷 Uma iniciativa da Priscilla Bernardelli para compartilhar conhecimento sobre Engenharia Sanitária e Ambiental em uma linguagem acessível para todos, esperando ajudar a diminuir as desinformaçes acerca deste tema que é tão presente nosso dia a dia.
