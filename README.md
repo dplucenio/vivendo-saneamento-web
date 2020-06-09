@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/assets/images/logo.png?raw=true" width="500" alt="Vivendo Saneamento" />
+  <img src="/assets/images/logo2.png?raw=true" width="500" alt="Vivendo Saneamento" />
 </p>
 
 <h3 align="center">Website for 'Vivendo Saneamento' blog.</h3>
