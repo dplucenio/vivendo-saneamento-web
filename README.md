@@ -4,7 +4,7 @@
 
 <div align="center">
   
-### Web development for [Vivendo Saneamento blog](httos://vivendosaneamento.org).
+### Web development for 'Vivendo Saneamento' blog.
 
 </div>
 
@@ -23,7 +23,7 @@
 
 ---
 
-🇧🇷 Uma iniciativa da Priscilla Bernardelli para compartilhar conhecimento sobre Engenharia Sanitária e Ambiental em uma linguagem acessível para todos, esperando ajudar a diminuir as desinformaçes acerca deste tema que é tão presente nosso dia a dia.
+🇧🇷 Uma iniciativa da Priscilla Bernardelli para compartilhar conhecimento sobre Engenharia Sanitária e Ambiental em uma linguagem acessível para todos, esperando ajudar a diminuir as desinformaçes acerca deste tema que é tão presente no nosso dia a dia.
 
 #### Tecnologias utilizadas
 - React / [Gatsby](https://www.gatsbyjs.org/)
