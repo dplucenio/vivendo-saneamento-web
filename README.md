@@ -4,7 +4,7 @@
 
 <div align="center">
   
-### Web development for 'Vivendo Saneamento' blog.
+### Front-end for 'Vivendo Saneamento' blog.
 
 </div>
 
