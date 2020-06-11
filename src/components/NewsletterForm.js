@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
+import axios from 'axios';
 import api from '../api';
 
 let Header = styled.h1`  
@@ -224,14 +225,11 @@ const NewsletterForm = React.forwardRef((props, ref) => {
         // api.post('/subscribers', { email: email.trim() })
         //   .then(res => console.log(res))
         //   .catch(err => console.log(err));
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encode({
-            "form-name": "newsletterForm",
-            email
-          })
-        })
+        axios.post(
+          '/',
+          encode({ "form-name": "newsletterForm", email }),
+          { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        )
       )
       .then(() => setIsSubscribed(true))
       .catch(err => {
