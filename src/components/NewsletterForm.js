@@ -219,18 +219,18 @@ const NewsletterForm = React.forwardRef((props, ref) => {
     schema.validate({
       email: email.trim(),
       abortEarly: false
-    })
+    })      
       .then(res => {
         setIsSubscribed(true);
         // api.post('/subscribers', { email: email.trim() })
         //   .then(res => console.log(res))
         //   .catch(err => console.log(err));
-
+        console.log(e.target);
         fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encode({
-            "form-name": e.target.getAttribute("name"),
+            "form-name": "newsletterForm",
             email
           })
         })
