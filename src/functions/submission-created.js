@@ -5,8 +5,18 @@ dotenv.config();
 const hooks = {
   newsletterForm(data, callback) {
     console.log('execute when newsletterForm');
-    let response = { statusCode: 200, body: "hello functions" };
-    callback(null, response);
+    console.log(data);
+
+    axios.post(`${process.env.GATSBY_BACKEND_BASEURL}/messages`, data)
+      .then(res => {
+        console.log(res);
+        callback(null, res);
+      }
+      )
+      .catch(err => {
+        console.log(err);
+        callback(null, err);
+      });
   }
 }
 
