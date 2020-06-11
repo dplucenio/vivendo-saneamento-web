@@ -7,7 +7,7 @@ const hooks = {
     console.log('execute when newsletterForm');
     console.log(data);
 
-    axios.post(`${process.env.GATSBY_BACKEND_BASEURL}/messages`, data)
+    axios.post(`${process.env.GATSBY_BACKEND_BASEURL}/subscribers`, data)
       .then(res => {
         console.log(res);
         callback(null, res);

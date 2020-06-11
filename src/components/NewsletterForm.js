@@ -227,7 +227,7 @@ const NewsletterForm = React.forwardRef((props, ref) => {
         //   .catch(err => console.log(err));
         axios.post(
           '/',
-          encode({ "form-name": "newsletterForm", email }),
+          encode({ "form-name": "newsletterForm", email: email.trim() }),
           { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
         )
       )
