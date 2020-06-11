@@ -5,6 +5,7 @@ import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
 import MyContainer from '../components/MyContainer';
 import api from '../api';
+import axios from 'axios';
 
 let Outer = styled.div`
   display: flex;
@@ -192,6 +193,12 @@ function ThankYou({ children }) {
   )
 }
 
+function encode(data) {
+  return Object.keys(data)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+}
+
 function MessageForm(props) {
   let [name, setName] = useState('');
   let [email, setEmail] = useState('');
@@ -228,9 +235,19 @@ function MessageForm(props) {
     e.preventDefault();
     schema.validate({ name, email: email.trim(), content })
       .then(res => {
-        api.post('/messages', { name, email: email.trim(), content })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+        // api.post('/messages', { name, email: email.trim(), content })
+        //   .then(res => console.log(res))
+        //   .catch(err => console.log(err));
+        axios.post(
+          '/',
+          encode({
+            "form-name": "messageForm",
+            name,
+            email: email.trim(),
+            content
+          }),
+          { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        );
         setName('');
         setEmail('');
         setContent('');
@@ -251,7 +268,13 @@ function MessageForm(props) {
           </MyContainer>
           <MyContainer widths={[
             { minWidth: '400px', width: '24rem', maxWidth: '24rem' }]}>
-            <form onSubmit={handleSubmit} noValidate>
+            <form
+              name="messageForm"
+              onSubmit={handleSubmit}
+              noValidate
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+            >
               <input
                 type="text"
                 name="name"

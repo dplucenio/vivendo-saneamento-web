@@ -4,7 +4,6 @@ import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
 import axios from 'axios';
-import api from '../api';
 
 let Header = styled.h1`  
   margin: 0rem 0.2rem 2rem 0.2rem;

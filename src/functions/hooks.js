@@ -14,4 +14,16 @@ function newsletterForm(data, callback) {
     });
 }
 
+function messageForm(data, callback) {
+  console.log('on messageForm hook');
+  axios.post(`${process.env.GATSBY_BACKEND_BASEURL}/messages`, data)
+    .then(res => {
+      callback(null, JSON.stringify(res));
+    }
+    )
+    .catch(err => {
+      callback(err, JSON.stringify(err));
+    });
+}
+
 module.exports = {newsletterForm};
