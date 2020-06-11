@@ -240,14 +240,9 @@ function MessageForm(props) {
         //   .catch(err => console.log(err));
         axios.post(
           '/',
-          encode({
-            "form-name": "messageForm",
-            name,
-            email: email.trim(),
-            content
-          }),
+          encode({ "form-name": "messageForm", email: email.trim() }),
           { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-        );
+        )
         setName('');
         setEmail('');
         setContent('');
