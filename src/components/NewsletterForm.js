@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes, css} from 'styled-components';
 import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
@@ -58,6 +58,36 @@ const Subscribed = React.forwardRef(({ children }, ref) => {
   )
 });
 
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+let LoadingDiv = styled.div`
+  margin: 1rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 250px;
+  ${css`
+    svg {
+      animation: ${rotate} 1.2s linear infinite
+      }
+    `}
+`;
+
+const Loading = React.forwardRef((props, ref) => {
+  return (
+    <LoadingDiv ref={ref}>
+      <Header><fontAwesome.FaSpinner/></Header>
+    </LoadingDiv>
+  )
+});
+
 
 const InputBox = styled.div`
   position: relative;
@@ -111,10 +141,10 @@ function ToolTip({ children }) {
   });
   return (
     <Outer visible={visible}>
-    <ToolTipWrapper >
-      {children}
-    </ToolTipWrapper>
-    <ArrowDown/>
+      <ToolTipWrapper >
+        {children}
+      </ToolTipWrapper>
+      <ArrowDown />
     </Outer>
   )
 }
@@ -191,8 +221,15 @@ const Form = styled.form`
 
 const NewsletterForm = React.forwardRef((props, ref) => {
 
+  const Subscription = {
+    IDLE: 'idle',
+    LOADING: 'loading',
+    SUBSCRIBED: 'subscribed'
+  };
+  Object.freeze(Subscription);
+
   let [email, setEmail] = useState('');
-  let [isSubscribed, setIsSubscribed] = useState(false);
+  let [subscription, setSubscription] = useState(Subscription.IDLE);
   let [isInvalid, setIsInvalid] = useState(false);
 
   let schema = yup.object().shape({
@@ -214,20 +251,24 @@ const NewsletterForm = React.forwardRef((props, ref) => {
       abortEarly: false
     })
       .then(res => {
-        setIsSubscribed(true);
-        console.log(email.trim());
-        api.post('/subscribers', { email: email.trim() })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+        setSubscription(Subscription.LOADING);
+        return api.post('/subscribers', { email: email.trim() });
+      })
+      .then(res => {
+        console.log(res);
+        setSubscription(Subscription.SUBSCRIBED);
       })
       .catch(err => {
         setIsInvalid(true);
         console.log(err.message);
       });
   }
-  return (
-    <>
-      {!isSubscribed ?
+
+  let component;
+  console.log(subscription);
+  if (subscription === Subscription.IDLE) {
+    component = (
+      <>
         <Form onSubmit={handleSubmit} novalidate ref={ref}>
           <Header>Receba novos conteúdos por e-mail!</Header>
           <InputBox isInvalid={isInvalid}>
@@ -243,12 +284,21 @@ const NewsletterForm = React.forwardRef((props, ref) => {
               : null}
           </InputBox>
           <button> <fontAwesome.FaEnvelope /> Cadastrar</button>
-        </Form> :
-        <Subscribed ref={ref}>
-          <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
-        </Subscribed>}
-    </>
-  )
+        </Form>
+      </>
+    );
+  } else if (subscription === Subscription.SUBSCRIBED) {
+    component = (
+      <Subscribed ref={ref}>
+        <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
+      </Subscribed>
+    );
+  } else {
+    component = <Loading />;
+  }
+
+  return component;
+
 });
 
 export default NewsletterForm;
