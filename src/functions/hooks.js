@@ -10,7 +10,7 @@ function newsletterForm(data, callback) {
     }
     )
     .catch(err => {
-      callback(null, JSON.stringify(err));
+      callback(err, JSON.stringify(err));
     });
 }
 
