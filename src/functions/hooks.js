@@ -6,13 +6,11 @@ function newsletterForm(data, callback) {
   console.log('on newsletterForm hook');
   axios.post(`${process.env.GATSBY_BACKEND_BASEURL}/subscribers`, data)
     .then(res => {
-      console.log(res);
-      callback(null, res);
+      callback(null, JSON.stringify(res));
     }
     )
     .catch(err => {
-      console.log(err);
-      callback(null, err);
+      callback(null, JSON.stringify(err));
     });
 }
 
