@@ -111,10 +111,10 @@ function ToolTip({ children }) {
   });
   return (
     <Outer visible={visible}>
-    <ToolTipWrapper >
-      {children}
-    </ToolTipWrapper>
-    <ArrowDown/>
+      <ToolTipWrapper >
+        {children}
+      </ToolTipWrapper>
+      <ArrowDown />
     </Outer>
   )
 }
@@ -189,6 +189,12 @@ const Form = styled.form`
   }
 `;
 
+function encode(data) {
+  return Object.keys(data)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+}
+
 const NewsletterForm = React.forwardRef((props, ref) => {
 
   let [email, setEmail] = useState('');
@@ -207,6 +213,7 @@ const NewsletterForm = React.forwardRef((props, ref) => {
 
     setEmail(e.target.value);
   }
+
   function handleSubmit(e) {
     e.preventDefault();
     schema.validate({
@@ -215,10 +222,20 @@ const NewsletterForm = React.forwardRef((props, ref) => {
     })
       .then(res => {
         setIsSubscribed(true);
-        console.log(email.trim());
-        api.post('/subscribers', { email: email.trim() })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+        // api.post('/subscribers', { email: email.trim() })
+        //   .then(res => console.log(res))
+        //   .catch(err => console.log(err));
+
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encode({
+            "form-name": e.target.getAttribute("name"),
+            email
+          })
+        })
+          .then(() => console.log('ok'))
+          .catch(error => console.log(error));
       })
       .catch(err => {
         setIsInvalid(true);
@@ -228,7 +245,14 @@ const NewsletterForm = React.forwardRef((props, ref) => {
   return (
     <>
       {!isSubscribed ?
-        <Form onSubmit={handleSubmit} novalidate ref={ref}>
+        <Form
+          name="newsletterForm"
+          ref={ref}
+          onSubmit={handleSubmit}
+          novalidate
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+        >
           <Header>Receba novos conteúdos por e-mail!</Header>
           <InputBox isInvalid={isInvalid}>
             <input
