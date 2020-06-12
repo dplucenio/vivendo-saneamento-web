@@ -5,6 +5,7 @@ import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
 import MyContainer from '../components/MyContainer';
 import api from '../api';
+import Loading from '../components/Loading';
 
 let Outer = styled.div`
   display: flex;
@@ -197,6 +198,7 @@ function MessageForm(props) {
   let [email, setEmail] = useState('');
   let [content, setContent] = useState('');
   let [messageSent, setMessageSent] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
   let [errorMessage, setErrorMessage] = useState('');
 
   let schema = yup.object().shape({
@@ -228,13 +230,16 @@ function MessageForm(props) {
     e.preventDefault();
     schema.validate({ name, email: email.trim(), content })
       .then(res => {
-        api.post('/messages', { name, email: email.trim(), content })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
         setName('');
         setEmail('');
         setContent('');
         setErrorMessage('');
+        setIsLoading(true);
+        return api.post('/messages', { name, email: email.trim(), content });
+      })
+      .then(res => {
+        console.log(res);
+        setIsLoading(false);
         setMessageSent(true);
       })
       .catch(err => {
@@ -243,53 +248,60 @@ function MessageForm(props) {
   }
   return (
     <InnerWrapper color={tint(0.0, '#2ab7caff')} id={props.id}>
-      {!messageSent ?
-        <>
-          <h1>Entre em contato!</h1>
-          <MyContainer widths={[
-            { minWidth: '0px', width: '100%', maxWidth: '700px' }]}>
-          </MyContainer>
-          <MyContainer widths={[
-            { minWidth: '400px', width: '24rem', maxWidth: '24rem' }]}>
-            <form onSubmit={handleSubmit} noValidate>
-              <input
-                type="text"
-                name="name"
-                placeholder="Como você se chama?"
-                value={name}
-                onChange={handleNameChange}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Seu melhor e-mail"
-                value={email}
-                onChange={handleEmailChange}
-              />
-              <textarea
-                name="content"
-                placeholder="Sua mensagem"
-                value={content}
-                onChange={handleContentChange}
-              >
-              </textarea>
-              <ButtonWrapper>
-                <button><fontAwesome.FaEnvelope /> Enviar</button>
-                {errorMessage === ''
-                  ? null
-                  : <ToolTip>
-                    <p>{errorMessage}</p>
-                  </ToolTip>}
-
-              </ButtonWrapper>
-            </form>
-          </MyContainer>
-        </>
-        :
+      {messageSent
+        ?
         <ThankYou>
           <h1>Obrigada pela mensagem!</h1>
           <p>Vou te responder em breve.</p>
         </ThankYou>
+        :
+        isLoading
+          ?
+          <Loading />
+          :
+          <>
+            <h1>Entre em contato!</h1>
+            <MyContainer widths={[
+              { minWidth: '0px', width: '100%', maxWidth: '700px' }]}>
+            </MyContainer>
+            <MyContainer widths={[
+              { minWidth: '400px', width: '24rem', maxWidth: '24rem' }]}>
+              <form onSubmit={handleSubmit} noValidate>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Como você se chama?"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Seu melhor e-mail"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                <textarea
+                  name="content"
+                  placeholder="Sua mensagem"
+                  value={content}
+                  onChange={handleContentChange}
+                >
+                </textarea>
+                <ButtonWrapper>
+                  <button><fontAwesome.FaEnvelope /> Enviar</button>
+                  {errorMessage === ''
+                    ? null
+                    : <ToolTip>
+                      <p>{errorMessage}</p>
+                    </ToolTip>}
+
+                </ButtonWrapper>
+              </form>
+            </MyContainer>
+          </>
+
+
       }
 
     </InnerWrapper>

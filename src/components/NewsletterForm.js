@@ -4,6 +4,7 @@ import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
 import api from '../api';
+import Loading from '../components/Loading';
 
 let Header = styled.h1`  
   margin: 0rem 0.2rem 2rem 0.2rem;
@@ -58,7 +59,6 @@ const Subscribed = React.forwardRef(({ children }, ref) => {
   )
 });
 
-
 const InputBox = styled.div`
   position: relative;
   width: 80%;
@@ -111,10 +111,10 @@ function ToolTip({ children }) {
   });
   return (
     <Outer visible={visible}>
-    <ToolTipWrapper >
-      {children}
-    </ToolTipWrapper>
-    <ArrowDown/>
+      <ToolTipWrapper >
+        {children}
+      </ToolTipWrapper>
+      <ArrowDown />
     </Outer>
   )
 }
@@ -194,6 +194,7 @@ const NewsletterForm = React.forwardRef((props, ref) => {
   let [email, setEmail] = useState('');
   let [isSubscribed, setIsSubscribed] = useState(false);
   let [isInvalid, setIsInvalid] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
   let schema = yup.object().shape({
     email: yup.string()
@@ -214,11 +215,12 @@ const NewsletterForm = React.forwardRef((props, ref) => {
       abortEarly: false
     })
       .then(res => {
+        setIsLoading(true);
+        return api.post('/subscribers', { email: email.trim() });
+      })
+      .then(res => {
+        setIsLoading(false);
         setIsSubscribed(true);
-        console.log(email.trim());
-        api.post('/subscribers', { email: email.trim() })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
       })
       .catch(err => {
         setIsInvalid(true);
@@ -226,8 +228,16 @@ const NewsletterForm = React.forwardRef((props, ref) => {
       });
   }
   return (
-    <>
-      {!isSubscribed ?
+    isSubscribed
+      ?
+      <Subscribed ref={ref}>
+        <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
+      </Subscribed>
+      :
+      isLoading
+        ?
+        <Loading />
+        :
         <Form onSubmit={handleSubmit} novalidate ref={ref}>
           <Header>Receba novos conteúdos por e-mail!</Header>
           <InputBox isInvalid={isInvalid}>
@@ -243,12 +253,9 @@ const NewsletterForm = React.forwardRef((props, ref) => {
               : null}
           </InputBox>
           <button> <fontAwesome.FaEnvelope /> Cadastrar</button>
-        </Form> :
-        <Subscribed ref={ref}>
-          <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
-        </Subscribed>}
-    </>
-  )
+        </Form>
+
+  );
 });
 
 export default NewsletterForm;
