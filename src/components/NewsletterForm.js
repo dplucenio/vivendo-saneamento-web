@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled, {keyframes, css} from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
@@ -83,7 +83,7 @@ let LoadingDiv = styled.div`
 const Loading = React.forwardRef((props, ref) => {
   return (
     <LoadingDiv ref={ref}>
-      <Header><fontAwesome.FaSpinner/></Header>
+      <Header><fontAwesome.FaSpinner /></Header>
     </LoadingDiv>
   )
 });
@@ -221,16 +221,10 @@ const Form = styled.form`
 
 const NewsletterForm = React.forwardRef((props, ref) => {
 
-  const Subscription = {
-    IDLE: 'idle',
-    LOADING: 'loading',
-    SUBSCRIBED: 'subscribed'
-  };
-  Object.freeze(Subscription);
-
   let [email, setEmail] = useState('');
-  let [subscription, setSubscription] = useState(Subscription.IDLE);
+  let [isSubscribed, setIsSubscribed] = useState(false);
   let [isInvalid, setIsInvalid] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
   let schema = yup.object().shape({
     email: yup.string()
@@ -251,24 +245,29 @@ const NewsletterForm = React.forwardRef((props, ref) => {
       abortEarly: false
     })
       .then(res => {
-        setSubscription(Subscription.LOADING);
+        setIsLoading(true);
         return api.post('/subscribers', { email: email.trim() });
       })
       .then(res => {
-        console.log(res);
-        setSubscription(Subscription.SUBSCRIBED);
+        setIsLoading(false);
+        setIsSubscribed(true);
       })
       .catch(err => {
         setIsInvalid(true);
         console.log(err.message);
       });
   }
-
-  let component;
-  console.log(subscription);
-  if (subscription === Subscription.IDLE) {
-    component = (
-      <>
+  return (
+    isSubscribed
+      ?
+      <Subscribed ref={ref}>
+        <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
+      </Subscribed>
+      :
+      isLoading
+        ?
+        <Loading />
+        :
         <Form onSubmit={handleSubmit} novalidate ref={ref}>
           <Header>Receba novos conteúdos por e-mail!</Header>
           <InputBox isInvalid={isInvalid}>
@@ -285,20 +284,8 @@ const NewsletterForm = React.forwardRef((props, ref) => {
           </InputBox>
           <button> <fontAwesome.FaEnvelope /> Cadastrar</button>
         </Form>
-      </>
-    );
-  } else if (subscription === Subscription.SUBSCRIBED) {
-    component = (
-      <Subscribed ref={ref}>
-        <Header>Inscrito! <fontAwesome.FaHeart /> </Header>
-      </Subscribed>
-    );
-  } else {
-    component = <Loading />;
-  }
 
-  return component;
-
+  );
 });
 
 export default NewsletterForm;
