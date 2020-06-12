@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import { tint, shade } from 'polished'
 import * as fontAwesome from 'react-icons/fa';
 import * as yup from 'yup';
 import api from '../api';
+import Loading from '../components/Loading';
 
 let Header = styled.h1`  
   margin: 0rem 0.2rem 2rem 0.2rem;
@@ -57,37 +58,6 @@ const Subscribed = React.forwardRef(({ children }, ref) => {
     </SubscribedDiv>
   )
 });
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-let LoadingDiv = styled.div`
-  margin: 1rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 250px;
-  ${css`
-    svg {
-      animation: ${rotate} 1.2s linear infinite
-      }
-    `}
-`;
-
-const Loading = React.forwardRef((props, ref) => {
-  return (
-    <LoadingDiv ref={ref}>
-      <Header><fontAwesome.FaSpinner /></Header>
-    </LoadingDiv>
-  )
-});
-
 
 const InputBox = styled.div`
   position: relative;
