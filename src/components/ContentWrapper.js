@@ -4,7 +4,7 @@ let ContentWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
   border-radius: 20px;
-  padding: 1rem;
+  padding: 1rem 1rem 2rem 1rem;
   margin: 1rem 0 2rem 0;
   text-align: justify;
   font-size: 1.1rem;
@@ -12,10 +12,7 @@ let ContentWrapper = styled.div`
     color: #333;
   }
   @media(min-width: 800px) {
-    padding: 1rem 2.2rem;
-  }
-  @media(min-width: 1200px) {
-    padding: 1rem 2.2rem;
+    padding: 1rem 2.2rem 2.2rem 2.2rem;
   }
 
   h1, h2, h3, h4 {
@@ -42,10 +39,14 @@ let ContentWrapper = styled.div`
       max-width: 100%;
     }
   }
+  p + p {
+    margin: 1rem 0 0 0;
+  }
   ul, ol {
     list-style-position: inside;
     margin: 1rem 0 1rem 2rem;
   }
+
   blockquote {
     padding: 0.8rem 1rem;
     border-left: 6px solid rgb(251,99,118);
