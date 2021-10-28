@@ -15,7 +15,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "babel-plugin-styled-components": "^1.10.7",
     "date-fns": "^2.13.0",
     "disqus-react": "^1.0.8",
